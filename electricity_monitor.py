@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import requests
 
@@ -10,10 +11,12 @@ ROOM_ID_LIGHT = "4691"         # 理工大厦北415（照明）
 OPEN_ID_AC = "2241221070"      # 空调
 ROOM_ID_AC = "3500"            # 理工大厦北K415（空调）
 
-THRESHOLD_LIGHT = 5100.0       # 照明预警线
-THRESHOLD_AC = 1000.0          # 空调预警线
+THRESHOLD_LIGHT = 5.0       # 照明预警线
+THRESHOLD_AC = 10.0          # 空调预警线
 
 SCKEY = os.getenv("SCKEY", "").strip()
+
+now = datetime.now(ZoneInfo("Asia/Shanghai"))
 
 # ========== 推送 ==========
 def send_wechat_alert(title, desp):
@@ -45,8 +48,9 @@ if __name__ == "__main__":
 
     print(f"照明余额：{light} 元")
     print(f"空调余额：{ac} 元")
+    print(now)
 
-    desp = f"""💡 **西理工电费日报** | {datetime.now():%Y-%m-%d %H:%M:%S}
+    desp = f"""💡 **西理工电费日报** | {now:%Y-%m-%d %H:%M:%S}
 ---
 
 | 项目 | 当前余额 | 预警线 | 状态 |
@@ -61,6 +65,6 @@ if __name__ == "__main__":
 > 2. 快充入口：[点击直达](https://ammeter.xaut.edu.cn/#/pages/index/login)
 
 ---
-🕒 推送时间：{datetime.now():%Y-%m-%d %H:%M:%S}
+🕒 推送时间：{now:%Y-%m-%d %H:%M:%S}
 """
     send_wechat_alert("西理工电费日报", desp)
