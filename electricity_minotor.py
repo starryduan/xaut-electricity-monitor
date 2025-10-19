@@ -1,3 +1,4 @@
+import os
 from datetime import datetime
 
 import requests
@@ -11,10 +12,11 @@ OPEN_ID_AC = "2241221070"      # 空调
 ORG_CODE_AC = "A000009"
 ROOM_ID_AC = "3500"            # 理工大厦北K415（空调）
 
-THRESHOLD_LIGHT = 5.0         # 照明阈值
-THRESHOLD_AC = 10.0            # 空调阈值
+THRESHOLD_LIGHT = 5100.0         # 照明阈值
+THRESHOLD_AC = 1000.0            # 空调阈值
 
-SCKEY = ""            # Server酱密钥
+SCKEY = os.getenv("SCKEY", "")            # Server酱密钥
+print("SCKEY=", SCKEY)
 
 # ========== 推送 ==========
 def send_wechat_alert(title, desp):
